@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/searchbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="114dp"
+        android:text="تراکیب تلاش کریں"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/thinkbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/searchbtn"
+        android:layout_alignLeft="@+id/searchbtn"
+        android:layout_alignRight="@+id/searchbtn"
+        android:layout_alignStart="@+id/searchbtn"
+        android:layout_below="@+id/searchbtn"
+        android:text="کیا پکاءیں"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/ratebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/searchbtn"
+        android:layout_alignLeft="@+id/searchbtn"
+        android:layout_alignRight="@+id/searchbtn"
+        android:layout_alignStart="@+id/searchbtn"
+        android:layout_below="@+id/thinkbutton"
+        android:text="ایپ ریٹ کریں"
+        android:textSize="30dp" />
+
+
+</RelativeLayout>
