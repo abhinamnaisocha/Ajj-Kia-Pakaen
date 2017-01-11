@@ -1,10 +1,17 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,14 +32,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Muhammad Bilal on 06/04/2016.
  */
 public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener {
-    private DishRecipie dish;
+    private ShareActionProvider mShareActionProvider;
+    DishRecipie dish;
     DBHelper myDbHelper;
-    TextView dishName, dishIng, dishRecipie;
+    TextView dishName, dishIng, dishRecipie, rateTxt, txtRating;
+    Toolbar toolbar;
     ImageView dishImg;
     RatingBar userrating, totalrating;
-    Firebase writeFirebaseRef, readFirebaseRef, readFirebaseRef1, readFirebaseRef2;
+    Firebase writeFirebaseRef, readFirebaseRef, readFirebaseRef1;
     long count = 0;
-    double ratings = 0;
+    double ratings = 0, prevRating = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -41,25 +50,18 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        myDbHelper = new DBHelper(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detaildish);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        initializations();
         setSupportActionBar(toolbar);
 
-        writeFirebaseRef = new Firebase("https://dishes-12c91.firebaseio.com/");
-
-        dishName = (TextView) findViewById(R.id.txtDishName);
-        dishIng = (TextView) findViewById(R.id.txtDishIng);
-        dishRecipie = (TextView) findViewById(R.id.txtDishRecipie);
-        dishImg = (ImageView) findViewById(R.id.ImgDish);
-        userrating = (RatingBar) findViewById(R.id.ratingBar2);
-        totalrating = (RatingBar) findViewById(R.id.ratingBar);
-        totalrating.setEnabled(false);
+        userrating = ratingColor(Color.parseColor("#f2f206"), userrating);
+        totalrating = ratingColor(Color.parseColor("#AFB42B"), totalrating);
 
         Intent activityIntent = getIntent();
         if (activityIntent.getStringExtra("class").equals("menu")) {
-            int id = activityIntent.getIntExtra("dishId", 0);
+            String name = activityIntent.getStringExtra("dishId");
             try {
                 // open the database
                 myDbHelper.open();
@@ -67,12 +69,20 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
             } catch (SQLException sqle) {
                 throw sqle;
             }
-            dish = myDbHelper.getReciepie(id);
+            dish = myDbHelper.getReciepieByName(name);
 
             dishName.setText(dish.getDishName());
             dishIng.setText(dish.getDishIng());
             dishRecipie.setText(dish.getDishRecipie());
-            dishImg.setImageResource(dish.getImgId());
+            if (dish.getImg() != null) {
+                Bitmap b1 = BitmapFactory.decodeByteArray(dish.getImg(), 0, dish.getImg().length);
+                dishImg.setImageBitmap(b1);
+            } else
+                dishImg.setImageResource(R.drawable.ic_launcher);
+            userrating.setRating(dish.getRated());
+
+            prevRating = userrating.getRating();
+
             myDbHelper.close();
         } else if (activityIntent.getStringExtra("class").equals("selector")) {
             try {
@@ -88,11 +98,15 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
             dishName.setText(dish.getDishName());
             dishIng.setText(dish.getDishIng());
             dishRecipie.setText(dish.getDishRecipie());
-            dishImg.setImageResource(dish.getImgId());
+            if (dish.getImg() != null) {
+                Bitmap b1 = BitmapFactory.decodeByteArray(dish.getImg(), 0, dish.getImg().length);
+                dishImg.setImageBitmap(b1);
+            } else
+                dishImg.setImageResource(R.drawable.ic_launcher);
             myDbHelper.close();
         }
-        if (dish.getRated() >= 1) {
-            userrating.setEnabled(false);
+        if (dish.getRated() > 0) {
+            rateTxt.setText("ریٹنگ تبدیل کریں");
         }
         userrating.setOnRatingBarChangeListener(this);
 
@@ -103,6 +117,7 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
                     count = (long) snapshot.getValue();
+                    txtRating.setText(count + " Ratings");
                 } else
                     count = 0;
             }
@@ -132,13 +147,35 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
             }
         });
 
+    }
 
+    public RatingBar ratingColor(int color, RatingBar rb) {
+        LayerDrawable stars = (LayerDrawable) rb.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        return rb;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+// Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, dish.getDishName() + "\n" + dish.getDishIng() + "\n" + dish.getDishRecipie());
+        sendIntent.setType("text/plain");
+
+        mShareActionProvider.setShareIntent(sendIntent);
+
+
+        MenuItem itemSearch = menu.findItem(R.id.Search);
+        itemSearch.setVisible(false);
+
         return true;
     }
 
@@ -170,8 +207,8 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-        if (dish.getRated() == 0) {
+        rateTxt.setText("ریٹنگ تبدیل کریں");
+        if (dish.getRated() == 0 && prevRating == 0) {
             myDbHelper = new DBHelper(this);
             try {
                 // open the database
@@ -180,16 +217,54 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
             } catch (SQLException sqle) {
                 throw sqle;
             }
-            myDbHelper.updateRating(dish.getDishId());
+            myDbHelper.updateRating(dish.getDishId(), rating);
             myDbHelper.close();
 
 
             DishRating dishRating = new DishRating(dishName.getText().toString(), (float) (ratings + rating), count + 1);
             writeFirebaseRef.child(String.valueOf(dish.getDishId())).setValue(dishRating);
-            userrating.setEnabled(false);
+
+        } else {
+            if (prevRating > rating) {
+
+                DishRating dishRating = new DishRating(dishName.getText().toString(), (float) (ratings - Math.abs(prevRating - rating)), count);
+                writeFirebaseRef.child(String.valueOf(dish.getDishId())).setValue(dishRating);
+            } else {
+                DishRating dishRating = new DishRating(dishName.getText().toString(), (float) (ratings + Math.abs(rating - prevRating)), count);
+                writeFirebaseRef.child(String.valueOf(dish.getDishId())).setValue(dishRating);
+            }
+
+            myDbHelper = new DBHelper(this);
+            try {
+                // open the database
+                myDbHelper.open();
+                myDbHelper.getWritableDatabase();
+            } catch (SQLException sqle) {
+                throw sqle;
+            }
+
+            myDbHelper.updateRating(dish.getDishId(), rating);
+            myDbHelper.close();
 
         }
+        prevRating = rating;
     }
+
+    public void initializations() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        myDbHelper = new DBHelper(this);
+        writeFirebaseRef = new Firebase("https://dishes-12c91.firebaseio.com/");
+
+        dishName = (TextView) findViewById(R.id.txtDishName);
+        dishIng = (TextView) findViewById(R.id.txtDishIng);
+        dishRecipie = (TextView) findViewById(R.id.txtDishRecipie);
+        rateTxt = (TextView) findViewById(R.id.textView);
+        dishImg = (ImageView) findViewById(R.id.ImgDish);
+        userrating = (RatingBar) findViewById(R.id.ratingBar2);
+        totalrating = (RatingBar) findViewById(R.id.ratingBar);
+        txtRating = (TextView) findViewById(R.id.txtRatings);
+    }
+
 
     public class DishRating {
         private float rating;

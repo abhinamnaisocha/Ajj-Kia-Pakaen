@@ -1,31 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary">
 
-    <Button
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <com.cuboid.cuboidcirclebutton.CuboidButton
+            android:id="@+id/btnbeef"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/btnrice"
+            android:layout_centerHorizontal="true"
+            android:text="گوشت"
+            android:textColor="@color/primary"
+            android:textSize="16dp"
+            app:cub_border_color="@color/primary_dark"
+            app:cub_border_radius="4dp"
+            app:cub_color="@color/button_color"
+            app:cub_hover_color="@color/primary_light"
+            app:cub_riple_effect="true" />
+
+
+    </RelativeLayout>
+
+    <com.cuboid.cuboidcirclebutton.CuboidButton
         android:id="@+id/btnrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnbeef"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="چاول / دال"
+        android:textColor="@color/primary"
+        android:textSize="16dp"
+        app:cub_border_color="@color/primary_dark"
+        app:cub_border_radius="4dp"
+        app:cub_color="@color/button_color"
+        app:cub_hover_color="@color/primary_light"
+        app:cub_riple_effect="true"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/btnbeef"
-        android:layout_marginTop="106dp"
-        android:text="چاول" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <Button
-        android:id="@+id/btnbeef"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnrice"
-        android:layout_centerHorizontal="true"
-        android:text="گوشت" />
-
-    <Button
+    <com.cuboid.cuboidcirclebutton.CuboidButton
         android:id="@+id/btnvegitables"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnbeef"
-        android:layout_centerHorizontal="true"
-        android:text="سبزی" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="سبزی"
+        android:textColor="@color/primary"
+        android:textSize="16dp"
+        app:cub_border_color="@color/primary_dark"
+        app:cub_border_radius="4dp"
+        app:cub_color="@color/button_color"
+        app:cub_hover_color="@color/primary_light"
+        app:cub_riple_effect="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

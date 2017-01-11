@@ -1,41 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary">
 
-    <Button
-        android:id="@+id/searchbtn"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="114dp"
-        android:text="تراکیب تلاش کریں"
-        android:textSize="30dp" />
+        android:layout_centerVertical="true">
 
-    <Button
-        android:id="@+id/thinkbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/searchbtn"
-        android:layout_alignLeft="@+id/searchbtn"
-        android:layout_alignRight="@+id/searchbtn"
-        android:layout_alignStart="@+id/searchbtn"
-        android:layout_below="@+id/searchbtn"
-        android:text="کیا پکاءیں"
-        android:textSize="30dp" />
 
-    <Button
+    </RelativeLayout>
+
+    <com.cuboid.cuboidcirclebutton.CuboidButton
         android:id="@+id/ratebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/searchbtn"
-        android:layout_alignLeft="@+id/searchbtn"
-        android:layout_alignRight="@+id/searchbtn"
-        android:layout_alignStart="@+id/searchbtn"
-        android:layout_below="@+id/thinkbutton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:text="ایپ ریٹ کریں"
-        android:textSize="30dp" />
+        android:textColor="@color/primary"
+        android:textSize="16dp"
+        app:cub_border_color="@color/primary_dark"
+        app:cub_border_radius="4dp"
+        app:cub_color="@color/button_color"
+        app:cub_hover_color="@color/primary_light"
+        app:cub_riple_effect="true" />
 
+    <com.cuboid.cuboidcirclebutton.CuboidButton
+        android:id="@+id/thinkbutton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="کیا پکاءیں؟"
+        android:textColor="@color/primary"
+        android:textSize="16dp"
+        app:cub_border_color="@color/primary_dark"
+        app:cub_border_radius="4dp"
+        app:cub_color="@color/button_color"
+        app:cub_hover_color="@color/primary_light"
+        app:cub_riple_effect="true" />
+
+    <com.cuboid.cuboidcirclebutton.CuboidButton
+        android:id="@+id/searchRecipie"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="تراکیب تلاش کریں"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:textColor="@color/primary"
+        android:textSize="16dp"
+        app:cub_border_color="@color/primary_dark"
+        app:cub_border_radius="4dp"
+        app:cub_color="@color/button_color"
+        app:cub_hover_color="@color/primary_light"
+        app:cub_riple_effect="true" />
 
 </RelativeLayout>

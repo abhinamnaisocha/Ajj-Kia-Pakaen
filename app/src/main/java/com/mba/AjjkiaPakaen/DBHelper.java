@@ -1,4 +1,4 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,14 +6,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TABLE1_NAME = "dishes";
     private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_NAME = "dishname";
     private static final String COLUMN_INGREDIENTS = "ingredient";
     private static final String COLUMN_RECIPIE = "recipie";
     private static final String COLUMN_IMG = "img";
@@ -65,10 +61,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void create() throws IOException {
         boolean check = checkDataBase();
 
-        SQLiteDatabase db_Read = null;
-
+        SQLiteDatabase db_Read = this.getWritableDatabase();
         // Creates empty database default system path
-        db_Read = this.getWritableDatabase();
+
         db_Read.close();
         try {
             if (!check) {
@@ -166,26 +161,62 @@ public class DBHelper extends SQLiteOpenHelper {
     // retrieves a particular recipie
     public DishRecipie getReciepie(int id) throws SQLException {
         DishRecipie dish = new DishRecipie();
+
+
         Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_ID + "=" + id, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+            dish.setDishId(id);
+            dish.setDishName(cursor.getString(1));
+            dish.setDishIng(cursor.getString(2));
+            dish.setDishRecipie(cursor.getString(3));
+            dish.setImg(cursor.getBlob(4));
+            dish.setRated(cursor.getFloat(5));
+            return dish;
+        } finally {
+            if (cursor != null)
+                cursor.close();
         }
-        dish.setDishId(id);
-        dish.setDishName(cursor.getString(1));
-        dish.setDishIng(cursor.getString(2));
-        dish.setDishRecipie(cursor.getString(3));
-        dish.setImgId(R.drawable.ic_launcher);
-        dish.setRated(cursor.getInt(5));
-        return dish;
+
+    }
+
+    public DishRecipie getReciepieByName(String name) throws SQLException {
+        DishRecipie dish = new DishRecipie();
+
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_NAME + "=\"" + name + "\"", null);
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+            dish.setDishId(cursor.getInt(0));
+            dish.setDishName(cursor.getString(1));
+            dish.setDishIng(cursor.getString(2));
+            dish.setDishRecipie(cursor.getString(3));
+            dish.setImg(cursor.getBlob(4));
+            dish.setRated(cursor.getFloat(5));
+            return dish;
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+
     }
 
     public List<DishRecipie> selectedRecipie(String ing) throws SQLException {
 
 
         List<DishRecipie> list = new ArrayList<>();
-        Log.d("lol", "SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_RECIPIE + " LIKE '%" + "lol" + "%'");
-
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_RECIPIE + " LIKE '%" + ing + "%'", null);
+        Cursor cursor = null;
+        if (ing == "سبزی") {
+            cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_RECIPIE + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + "ویجیٹیبل" + "%' OR " + COLUMN_NAME + " LIKE '%" + "سبزیوں" + "%'", null);
+        } else if (ing == "گوشت") {
+            cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_RECIPIE + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + "اونٹ" + "%' OR " + COLUMN_NAME + " LIKE '%" + "مٹن" + "%' OR " + COLUMN_NAME + " LIKE '%" + "چکن" + "%' OR " + COLUMN_NAME + " LIKE '%" + "بیف" + "%' OR " + COLUMN_RECIPIE + " LIKE '%" + "قیمہ" + "%' OR " + COLUMN_RECIPIE + " LIKE '%" + "چکن" + "%' OR " + COLUMN_RECIPIE + " LIKE '%" + "مرغی" + "%'", null);
+        } else {
+            cursor = database.rawQuery("SELECT * FROM " + TABLE1_NAME + " WHERE " + COLUMN_RECIPIE + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + ing + "%' OR " + COLUMN_NAME + " LIKE '%" + "دال" + "%' OR " + COLUMN_RECIPIE + " LIKE '%" + "دال" + "%'", null);
+        }
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -194,8 +225,16 @@ public class DBHelper extends SQLiteOpenHelper {
             current.setDishName(cursor.getString(1));
             current.setDishIng(cursor.getString(2));
             current.setDishRecipie(cursor.getString(3));
-            current.setImgId(R.drawable.ic_launcher);
-            current.setRated(cursor.getInt(5));
+            if (cursor.getBlob(4) != null)
+                current.setImg(cursor.getBlob(4));
+            else {
+                Bitmap bitmap = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.ic_launcher);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                current.setImg(stream.toByteArray());
+            }
+
+            current.setRated(cursor.getFloat(5));
 
             list.add(current);
             cursor.moveToNext();
@@ -218,8 +257,16 @@ public class DBHelper extends SQLiteOpenHelper {
             current.setDishName(cursor.getString(1));
             current.setDishIng(cursor.getString(2));
             current.setDishRecipie(cursor.getString(3));
-            current.setImgId(R.drawable.ic_launcher);
-            current.setRated(cursor.getInt(5));
+            if (cursor.getBlob(4) != null)
+                current.setImg(cursor.getBlob(4));
+            else {
+                Bitmap bitmap = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.ic_launcher);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                current.setImg(stream.toByteArray());
+            }
+
+            current.setRated(cursor.getFloat(5));
 
             list.add(current);
             cursor.moveToNext();
@@ -228,11 +275,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public void updateRating(int id)
-    {
-        String updateQuery="Update "+TABLE1_NAME+ " SET "+COLUMN_RATED+"="+1+" where "+COLUMN_ID+"="+id;
+    public void updateRating(int id, float rate) {
+        String updateQuery = "Update " + TABLE1_NAME + " SET " + COLUMN_RATED + "=" + rate + " where " + COLUMN_ID + "=" + id;
         database.execSQL(updateQuery);
     }
+
+
 }
 
 

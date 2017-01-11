@@ -1,13 +1,14 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
-import android.media.Image;
 
 /**
  * Created by Muhammad Bilal on 27/03/2016.
  */
 public class DishRecipie {
 
-    private int dishId, imgId, rated;
+    private int dishId;
+    float rated;
+    byte[] img;
     private String dishName, dishIng, dishRecipie;
 
 
@@ -19,11 +20,11 @@ public class DishRecipie {
         this.dishId = dishId;
     }
 
-    public int getRated() {
+    public float getRated() {
         return rated;
     }
 
-    public void setRated(int rated) {
+    public void setRated(float rated) {
         this.rated = rated;
     }
 
@@ -51,11 +52,11 @@ public class DishRecipie {
         this.dishRecipie = dishRecipie;
     }
 
-    public int getImgId() {
-        return imgId;
+    public byte[] getImg() {
+        return img;
     }
 
-    public void setImgId(int imgId) {
-        this.imgId = imgId;
+    public void setImg(byte[] img) {
+        this.img = img;
     }
 }

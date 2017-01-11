@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.mba.myapplication"
+        applicationId "com.mba.AjjkiaPakaen"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -38,4 +38,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.firebase:firebase-client-android:2.5.2+'
+    compile 'com.cuboid:cuboidcirclebutton:1.0.3'
 }

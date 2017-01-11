@@ -1,4 +1,4 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

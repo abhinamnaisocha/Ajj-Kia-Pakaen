@@ -1,14 +1,10 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,15 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.view.View;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -38,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private RecyclerView recyclerView;
     private RecycleListAdapter adapter;
     private MenuItem searchMenuItem;
-    private SearchView searchView;
     private List<DishRecipie> dishes;
 
     @Override
@@ -91,17 +82,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
+
         SearchManager searchManager = (SearchManager)
                 getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem = menu.findItem(R.id.search);
+        searchMenuItem = menu.findItem(R.id.Search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         searchView.setSearchableInfo(searchManager.
                 getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
 
+
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+        item.setVisible(false);
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,17 +125,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (TextUtils.isEmpty(newText)) {
             adapter.getFilter().filter("");
         } else {
-            adapter.getFilter().filter(newText.toString());
+            adapter.getFilter().filter(newText);
         }
         return true;
     }
 
     @Override
     public void itemClicked(View itemView, int position) {
-
-        Toast.makeText(MainActivity.this, "Item Clicked: " + dishes.get(position).getDishName(), Toast.LENGTH_SHORT).show();
         Intent i = new Intent(MainActivity.this, DetailDish.class);
-        i.putExtra("dishId", dishes.get(position).getDishId());
+        TextView textView = (TextView) itemView.findViewById(R.id.dishName);
+        String text = textView.getText().toString();
+        i.putExtra("dishId", text);
         i.putExtra("class", "menu");
         startActivity(i);
     }

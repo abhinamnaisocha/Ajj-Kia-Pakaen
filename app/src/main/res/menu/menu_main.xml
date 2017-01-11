@@ -2,12 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/search"
+        android:id="@+id/Search"
         android:icon="@drawable/ic_launcher"
         android:orderInCategory="100"
-        android:title="searchdish"
+        android:title="Search Dish"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+    <item
+        android:id="@+id/menu_item_share"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        android:title="Share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="200"

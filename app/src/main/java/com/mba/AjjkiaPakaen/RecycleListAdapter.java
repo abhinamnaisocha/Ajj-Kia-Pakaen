@@ -1,18 +1,25 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.content.Context;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +34,9 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
     List<DishRecipie> dishes = Collections.emptyList();
     private LayoutInflater inflater;
     private ClickListner clickListner;
+    Firebase readFirebaseRef, readFirebaseRef1;
+    double ratings = 0d;
+    long count = 0;
 
     public RecycleListAdapter(Context context, List<DishRecipie> dishes) {
         inflater = LayoutInflater.from(context);
@@ -47,13 +57,62 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(viewHolder holder, int position) {
+    public void onBindViewHolder(final viewHolder holder, int position) {
+
         DishRecipie current = dishes.get(position);
         holder.dishName.setText(current.getDishName());
-        holder.ingredients.setText(current.getDishIng());
-        holder.dishImg.setImageResource(current.getImgId());
+        Bitmap b1 = BitmapFactory.decodeByteArray(current.getImg(), 0, current.getImg().length);
+        holder.dishImg.setImageBitmap(b1);
+        holder.ratingBar.setRating(0.0f);
 
+        readFirebaseRef1 = new Firebase("https://dishes-12c91.firebaseio.com/" + current.getDishId());
+        readFirebaseRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                count = 0;
+                if (snapshot.getValue() != null) {
+
+                    count = (long) snapshot.child("count").getValue();
+                    ratings = (double) snapshot.child("rating").getValue();
+
+                }
+
+                if (count > 0) {
+                    holder.ratingBar.setRating(Float.parseFloat(String.valueOf(ratings / count)));
+                } else
+                    holder.ratingBar.setRating(0);
+
+
+            }
+
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
+       /* readFirebaseRef = new Firebase("https://dishes-12c91.firebaseio.com/" + current.getDishId() + "/rating");
+        readFirebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    ratings = (double) snapshot.getValue();
+                    if (count > 0) {
+                        holder.ratingBar.setRating(Float.parseFloat(String.valueOf((Double) snapshot.getValue() / count)));
+                    } else
+                        holder.ratingBar.setRating(Float.parseFloat(String.valueOf((Double) snapshot.getValue())));
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });*/
     }
+
 
     @Override
     public int getItemCount() {
@@ -92,16 +151,22 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
 
     public class viewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView dishName, ingredients;
+        TextView dishName;
         ImageView dishImg;
+        RatingBar ratingBar;
 
         public viewHolder(View itemView) {
             super(itemView);
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
             dishImg = (ImageView) itemView.findViewById(R.id.dishImg);
-            ingredients = (TextView) itemView.findViewById(R.id.dishIng);
+
             dishName = (TextView) itemView.findViewById(R.id.dishName);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.titleRb);
+            LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+
+            stars.getDrawable(2).setColorFilter(Color.parseColor("#AFB42B"), PorterDuff.Mode.SRC_ATOP);
+
         }
 
         @Override
@@ -114,7 +179,7 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
     }
 
     public interface ClickListner {
-        public void itemClicked(View itemView, int position);
+        void itemClicked(View itemView, int position);
     }
 
 }

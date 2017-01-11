@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#f742ca">
+    android:background="@color/primary">
 
     <TextView
         fontPath="fonts/akram-unicode-regular-1.ttf"
@@ -12,11 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="آج کیا پکا‍‌ءیں"
+        android:text="آج کیا پکا‍‌ءیں ؟"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="202dp"
-        tools:ignore="MissingPrefix" />
+        tools:ignore="MissingPrefix"
+        android:textSize="50dp" />
 </RelativeLayout>

@@ -1,12 +1,12 @@
-package com.mba.myapplication;
+package com.mba.AjjkiaPakaen;
 
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+
+import com.cuboid.cuboidcirclebutton.CuboidButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Random;
 public class DishSelector extends AppCompatActivity implements View.OnClickListener {
     DBHelper dbHelper;
     List<DishRecipie> dishlist;
-    Button rice, chicken, beef, vegitable;
+    CuboidButton rice, beef, vegitable;
     Intent i;
 
     @Override
@@ -44,15 +44,18 @@ public class DishSelector extends AppCompatActivity implements View.OnClickListe
             throw sqle;
         }
 
+        initialization();
 
+    }
 
-        rice = (Button) findViewById(R.id.btnrice);
-        beef = (Button) findViewById(R.id.btnbeef);
-        vegitable = (Button) findViewById(R.id.btnvegitables);
+    public void initialization() {
+
+        rice = (CuboidButton) findViewById(R.id.btnrice);
+        beef = (CuboidButton) findViewById(R.id.btnbeef);
+        vegitable = (CuboidButton) findViewById(R.id.btnvegitables);
         rice.setOnClickListener(this);
         beef.setOnClickListener(this);
         vegitable.setOnClickListener(this);
-
     }
 
     public int recipieSelected(String ing) {
