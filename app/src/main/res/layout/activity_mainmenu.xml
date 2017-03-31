@@ -15,7 +15,7 @@
 
     </RelativeLayout>
 
-    <com.cuboid.cuboidcirclebutton.CuboidButton
+    <Button
         android:id="@+id/ratebtn"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -25,13 +25,9 @@
         android:text="ایپ ریٹ کریں"
         android:textColor="@color/primary"
         android:textSize="16dp"
-        app:cub_border_color="@color/primary_dark"
-        app:cub_border_radius="4dp"
-        app:cub_color="@color/button_color"
-        app:cub_hover_color="@color/primary_light"
-        app:cub_riple_effect="true" />
+       />
 
-    <com.cuboid.cuboidcirclebutton.CuboidButton
+    <Button
         android:id="@+id/thinkbutton"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -40,13 +36,9 @@
         android:text="کیا پکاءیں؟"
         android:textColor="@color/primary"
         android:textSize="16dp"
-        app:cub_border_color="@color/primary_dark"
-        app:cub_border_radius="4dp"
-        app:cub_color="@color/button_color"
-        app:cub_hover_color="@color/primary_light"
-        app:cub_riple_effect="true" />
+        />
 
-    <com.cuboid.cuboidcirclebutton.CuboidButton
+    <Button
         android:id="@+id/searchRecipie"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -56,10 +48,6 @@
         android:layout_height="150dp"
         android:textColor="@color/primary"
         android:textSize="16dp"
-        app:cub_border_color="@color/primary_dark"
-        app:cub_border_radius="4dp"
-        app:cub_color="@color/button_color"
-        app:cub_hover_color="@color/primary_light"
-        app:cub_riple_effect="true" />
+       />
 
 </RelativeLayout>
