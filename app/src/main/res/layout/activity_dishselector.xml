@@ -16,12 +16,11 @@
             android:id="@+id/btnbeef"
             android:layout_width="150dp"
             android:layout_height="150dp"
-
             android:layout_centerHorizontal="true"
+            android:background="@drawable/circle"
             android:text="گوشت"
             android:textColor="@color/primary"
-            android:textSize="16dp"
-           />
+            android:textSize="16dp" />
 
 
     </RelativeLayout>
@@ -30,22 +29,24 @@
         android:id="@+id/btnrice"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/circle"
         android:text="چاول / دال"
         android:textColor="@color/primary"
-        android:textSize="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textSize="16dp" />
 
     <Button
         android:id="@+id/btnvegitables"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:text="سبزی"
-        android:textColor="@color/primary"
-        android:textSize="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@drawable/circle"
+        android:text="سبزی"
+        android:textColor="@color/primary"
+        android:textSize="16dp" />
 
 </RelativeLayout>

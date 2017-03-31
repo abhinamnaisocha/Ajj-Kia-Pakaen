@@ -25,7 +25,8 @@
         android:text="ایپ ریٹ کریں"
         android:textColor="@color/primary"
         android:textSize="16dp"
-       />
+        android:background="@drawable/circle"
+        />
 
     <Button
         android:id="@+id/thinkbutton"
@@ -36,6 +37,7 @@
         android:text="کیا پکاءیں؟"
         android:textColor="@color/primary"
         android:textSize="16dp"
+        android:background="@drawable/circle"
         />
 
     <Button
@@ -48,6 +50,7 @@
         android:layout_height="150dp"
         android:textColor="@color/primary"
         android:textSize="16dp"
-       />
+        android:background="@drawable/circle"
+        />
 
 </RelativeLayout>
