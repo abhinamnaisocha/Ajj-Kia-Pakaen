@@ -80,7 +80,8 @@
                     android:layout_below="@+id/txtRatings"
                     android:text="اجزاء"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="22sp"/>
 
                 <TextView
                     android:id="@+id/txtDishIng"
@@ -100,6 +101,7 @@
                     android:layout_alignRight="@+id/ratingBar"
                     android:layout_below="@+id/txtDishIng"
                     android:text="ترکیب"
+                    android:textSize="22sp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold" />
 

@@ -56,8 +56,8 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
         initializations();
         setSupportActionBar(toolbar);
 
-        userrating = ratingColor(Color.parseColor("#f2f206"), userrating);
-        totalrating = ratingColor(Color.parseColor("#AFB42B"), totalrating);
+        userrating = ratingColor(Color.parseColor("#f409c1"), userrating);
+        totalrating = ratingColor(Color.parseColor("#9c037b"), totalrating);
 
         Intent activityIntent = getIntent();
         if (activityIntent.getStringExtra("class").equals("menu")) {
@@ -187,9 +187,7 @@ public class DetailDish extends AppCompatActivity implements RatingBar.OnRatingB
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

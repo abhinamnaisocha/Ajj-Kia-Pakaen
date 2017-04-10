@@ -165,7 +165,7 @@ public class RecycleListAdapter extends RecyclerView.Adapter<RecycleListAdapter.
             ratingBar = (RatingBar) itemView.findViewById(R.id.titleRb);
             LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
 
-            stars.getDrawable(2).setColorFilter(Color.parseColor("#AFB42B"), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(2).setColorFilter(Color.parseColor("#c9079f"), PorterDuff.Mode.SRC_ATOP);
 
         }
 

@@ -19,5 +19,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="202dp"
         tools:ignore="MissingPrefix"
-        android:textSize="50dp" />
+        android:textSize="50dp"
+        android:textColor="#fff"/>
 </RelativeLayout>

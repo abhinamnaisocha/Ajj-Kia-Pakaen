@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/Search"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="100"
         android:title="Search Dish"
         app:actionViewClass="android.support.v7.widget.SearchView"
@@ -14,9 +14,5 @@
         android:title="Share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="200"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
 </menu>
